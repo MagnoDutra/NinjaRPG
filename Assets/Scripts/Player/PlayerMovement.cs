@@ -5,21 +5,18 @@ public class PlayerMovement : MonoBehaviour
     [Header("Config")]
     [SerializeField] private float speed;
 
-    private readonly int moveX = Animator.StringToHash("MoveX");
-    private readonly int moveY = Animator.StringToHash("MoveY");
-    private readonly int isMoving = Animator.StringToHash("Moving");
-
+    private Player player;
+    private PlayerAnimations playerAnimations;
     private PlayerActions actions;
     private Rigidbody2D rb;
     private Vector2 moveDirection;
 
-    private Animator anim;
-
     private void Awake()
     {
+        player = GetComponent<Player>();
         actions = new PlayerActions();
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        playerAnimations = GetComponent<PlayerAnimations>();
     }
 
     void Update()
@@ -34,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
+        if (player.Stats.Health <= 0) return;
         // MovePosition teletransporta o player para a nova posição, utilizando da física do RB
         // Ele vai calcular toda colisão mas não vai acumular força por exemplo. Por se tratar de fisica
         // Utilizamos a posicao do RB ao inves do GameObject e o FixedUpdate
@@ -46,14 +44,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveDirection == Vector2.zero)
         {
-            anim.SetBool(isMoving, false);
+            playerAnimations.SetMovingAnimation(false);
             return;
         }
 
-        anim.SetBool(isMoving, true);
-        anim.SetFloat(moveX, moveDirection.x);
-        anim.SetFloat(moveY, moveDirection.y);
-
+        playerAnimations.SetMovingAnimation(true);
+        playerAnimations.SetMoveDirectionAnimation(moveDirection);
     }
 
     // Liga os Actions inputs criados

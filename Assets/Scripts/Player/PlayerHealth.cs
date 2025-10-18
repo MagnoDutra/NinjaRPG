@@ -6,6 +6,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("Config")]
     [SerializeField] private PlayerStats stats;
 
+    private PlayerAnimations playerAnimations;
+
+    void Awake()
+    {
+        playerAnimations = GetComponent<PlayerAnimations>();
+    }
+
     void Update()
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
@@ -25,6 +32,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void PlayerDead()
     {
-        Debug.Log("Player Dead");
+        playerAnimations.SetDeadAnimation();
     }
 }
