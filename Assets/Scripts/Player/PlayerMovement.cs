@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 
     private readonly int moveX = Animator.StringToHash("MoveX");
     private readonly int moveY = Animator.StringToHash("MoveY");
+    private readonly int isMoving = Animator.StringToHash("Moving");
 
     private PlayerActions actions;
     private Rigidbody2D rb;
@@ -44,8 +45,12 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = actions.Movement.Move.ReadValue<Vector2>().normalized;
 
         if (moveDirection == Vector2.zero)
+        {
+            anim.SetBool(isMoving, false);
             return;
+        }
 
+        anim.SetBool(isMoving, true);
         anim.SetFloat(moveX, moveDirection.x);
         anim.SetFloat(moveY, moveDirection.y);
 
