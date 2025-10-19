@@ -6,6 +6,7 @@ public class PlayerAnimations : MonoBehaviour
     private readonly int moveY = Animator.StringToHash("MoveY");
     private readonly int moving = Animator.StringToHash("Moving");
     private readonly int dead = Animator.StringToHash("Dead");
+    private readonly int revive = Animator.StringToHash("Revive");
 
     private Animator anim;
 
@@ -28,5 +29,11 @@ public class PlayerAnimations : MonoBehaviour
     {
         anim.SetFloat(moveX, direction.x);
         anim.SetFloat(moveY, direction.y);
+    }
+
+    public void ResetPlayerAnimation()
+    {
+        SetMoveDirectionAnimation(Vector2.down);
+        anim.SetTrigger(revive);
     }
 }
